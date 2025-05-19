@@ -5,12 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="fullscreen=*">
     <title>Mastering Canva Code Webinar</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
         body {
             font-family: 'Poppins', sans-serif;
@@ -30,14 +28,13 @@
         .card-4 { background-color: #6A0572; }
         .card-5 { background-color: #1A936F; }
         .card-6 { background-color: #3D5A80; }
-        .card-7 { background-color: #E76F51; }
         
-        .card-1, .card-2, .card-3, .card-4, .card-5, .card-6, .card-7 {
+        .card-1, .card-2, .card-3, .card-4, .card-5, .card-6 {
             transition: transform 0.3s ease;
         }
         
         .card-1:hover, .card-2:hover, .card-3:hover, 
-        .card-4:hover, .card-5:hover, .card-6:hover, .card-7:hover {
+        .card-4:hover, .card-5:hover, .card-6:hover {
             transform: translateY(-5px);
         }
         
@@ -137,87 +134,13 @@
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 16px;
         }
-        
-        /* Project card */
-        .project-card {
-            transition: all 0.3s ease;
-            overflow: hidden;
-        }
-        
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        
-        .project-image {
-            height: 200px;
-            width: 100%;
-            object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-        
-        .project-card:hover .project-image {
-            transform: scale(1.05);
-        }
-        
-        .difficulty-badge {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-        
-        .difficulty-easy {
-            background-color: #4CAF50;
-            color: white;
-        }
-        
-        .difficulty-medium {
-            background-color: #FF9800;
-            color: white;
-        }
-        
-        .difficulty-hard {
-            background-color: #F44336;
-            color: white;
-        }
-        
-        /* Project filter buttons */
-        .filter-btn {
-            transition: all 0.3s ease;
-            border: 2px solid transparent;
-        }
-        
-        .filter-btn.active {
-            border-color: #6A0572;
-            background-color: #6A0572;
-            color: white;
-        }
-        
-        /* Fix form input text color */
-        input[type="text"],
-        input[type="tel"],
-        input[type="email"],
-        select {
-            color: #333 !important;
-            background-color: white !important;
-        }
-        
-        /* Fix search input text color */
-        #searchParticipants {
-            color: #333 !important;
-        }
     </style>
 </head>
 <body>
     <!-- Hero Video Section -->
     <section class="relative w-full h-screen overflow-hidden">
         <video class="hero-video" autoplay loop muted playsinline>
-            <source src="https://xppfmghrhhrejnopnyir.supabase.co/storage/v1/object/public/ewan//MASTERING%20(1).mp4" type="video/mp4">
+            <source src="https://xppfmghrhhrejnopnyir.supabase.co/storage/v1/object/public/ewan//MASTERING.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
@@ -233,30 +156,19 @@
     <!-- Main Content -->
     <div id="content" class="bg-gradient-to-b from-purple-900 to-indigo-900 text-white py-16">
         <div class="container mx-auto px-4">
-            <!-- Speakers Section -->
+            <!-- Speaker Section -->
             <section class="mb-20">
-                <h2 class="text-3xl font-bold text-center mb-12">Narasumber</h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
-                    <!-- Speaker 1: Ewan -->
-                    <div class="flex flex-col items-center">
+                <div class="flex flex-col md:flex-row items-center justify-center gap-8">
+                    <div class="w-full md:w-1/3">
                         <div class="speaker-image-container">
-                            <img src="https://iili.io/3PksEut.png" alt="Ewan" class="speaker-image">
-                        </div>
-                        <div class="text-center mt-6">
-                            <h3 class="text-2xl font-bold mb-2">Ewan</h3>
-                            <p class="text-xl text-purple-200">Guru Duta Canva</p>
+                            <img src="https://iili.io/3PwSBup.jpg" alt="Ewan" class="speaker-image">
                         </div>
                     </div>
-                    
-                    <!-- Speaker 2: Khaerudin -->
-                    <div class="flex flex-col items-center">
-                        <div class="speaker-image-container">
-                            <img src="https://iili.io/3PkGBOF.jpg" alt="Khaerudin" class="speaker-image">
-                        </div>
-                        <div class="text-center mt-6">
-                            <h3 class="text-2xl font-bold mb-2">Khaerudin</h3>
-                            <p class="text-xl text-purple-200">Duta Teknologi Provinsi NTB</p>
-                        </div>
+                    <div class="w-full md:w-2/3 text-center md:text-left">
+                        <h2 class="text-4xl md:text-5xl font-bold mb-4">Mastering Canva Code</h2>
+                        <p class="text-xl md:text-2xl mb-6">Presented by</p>
+                        <h3 class="text-3xl font-bold mb-2">Ewan</h3>
+                        <p class="text-xl text-purple-200">Teacher Canvassador</p>
                     </div>
                 </div>
             </section>
@@ -268,7 +180,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                         </svg>
-                        <h3 class="text-xl font-semibold mb-2">23 Mei 2025</h3>
+                        <h3 class="text-xl font-semibold mb-2">21 Mei 2025</h3>
                     </div>
                     <div class="icon-box p-6 flex flex-col items-center text-center">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -321,31 +233,6 @@
                         <h3 class="text-xl font-bold mb-3">Url Media</h3>
                         <p>Penggunaan gambar, video, dan audio di Canva Code</p>
                     </div>
-                    <div class="card-7 rounded-lg p-6 text-white shadow-lg">
-                        <h3 class="text-xl font-bold mb-3">Praktik Baik</h3>
-                        <p>Integrasi Pembelajaran Coding dan Kearifan Lokal memanfaatkan Canva</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Sample Projects Section -->
-            <section class="mb-20">
-                <h2 class="text-3xl font-bold text-center mb-6">Sample Projects</h2>
-                <p class="text-center text-lg mb-12 max-w-3xl mx-auto">Berikut adalah beberapa contoh project yang dibuat dengan Canva AI, termasuk pendaftaran ini.</p>
-                
-                <div class="mb-8 flex flex-wrap justify-center gap-4">
-                    <button class="filter-btn active px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="all">Semua</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Mudah">Mudah</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Sedang">Sedang</button>
-                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Sulit">Sulit</button>
-                </div>
-                
-                <div id="projectsLoading" class="flex justify-center my-8">
-                    <div class="loader"></div>
-                </div>
-                
-                <div id="projectsContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Projects will be loaded here -->
                 </div>
             </section>
 
@@ -358,19 +245,19 @@
                     <form id="registrationForm" class="p-6 space-y-4">
                         <div>
                             <label for="nama" class="block text-gray-700 font-medium mb-2">Nama</label>
-                            <input type="text" id="nama" name="nama" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                            <input type="text" id="nama" name="nama" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
                         </div>
                         <div>
                             <label for="provinsi" class="block text-gray-700 font-medium mb-2">Provinsi</label>
-                            <input type="text" id="provinsi" name="provinsi" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                            <input type="text" id="provinsi" name="provinsi" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
                         </div>
                         <div>
                             <label for="whatsapp" class="block text-gray-700 font-medium mb-2">WhatsApp</label>
-                            <input type="tel" id="whatsapp" name="whatsapp" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                            <input type="tel" id="whatsapp" name="whatsapp" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
                         </div>
                         <div>
                             <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
-                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600">
                         </div>
                         <div class="pt-4">
                             <button type="submit" class="register-btn w-full py-3 px-6 text-white font-bold rounded-lg">
@@ -389,8 +276,8 @@
                     </div>
                     <div class="p-6 flex flex-col items-center">
                         <p class="text-gray-700 mb-6 text-center">Scan QR code di bawah ini untuk bergabung dengan grup WhatsApp kami:</p>
-                        <img src="https://iili.io/3Pks5MJ.png" alt="WhatsApp Group QR Code" class="w-48 h-48 mb-6">
-                        <a href="https://chat.whatsapp.com/GfIlwf8tAjr2qjuHJnjoAy" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                        <img src="https://iili.io/3PezlhF.png" alt="WhatsApp Group QR Code" class="w-48 h-48 mb-6">
+                        <a href="https://chat.whatsapp.com/Hhf2sMeBRKH4PHtl6RK6Mt" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
                             Buka di WhatsApp
                         </a>
                     </div>
@@ -404,18 +291,18 @@
                     <div class="loader"></div>
                 </div>
                 <div id="participantsContainer" class="hidden">
-                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                        <div class="flex items-center w-full md:w-auto">
-                            <input type="text" id="searchParticipants" placeholder="Cari peserta..." class="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600 w-full md:w-auto text-gray-800">
+                    <div class="flex justify-between items-center mb-6">
+                        <div class="flex items-center">
+                            <input type="text" id="searchParticipants" placeholder="Cari peserta..." class="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600">
                             <button id="searchButton" class="ml-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition duration-300">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                                 </svg>
                             </button>
                         </div>
-                        <div class="flex items-center w-full md:w-auto justify-end">
+                        <div class="flex items-center">
                             <span class="text-white mr-2">Tampilkan:</span>
-                            <select id="participantsPerPage" class="px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                            <select id="participantsPerPage" class="px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600">
                                 <option value="12">12</option>
                                 <option value="24">24</option>
                                 <option value="48">48</option>
@@ -428,7 +315,7 @@
                         <!-- Participants will be loaded here -->
                     </div>
                     
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <div class="flex justify-between items-center">
                         <div class="text-white" id="participantsInfo">
                             Menampilkan <span id="startCount">0</span>-<span id="endCount">0</span> dari <span id="totalCount">0</span> peserta
                         </div>
@@ -515,7 +402,7 @@
                     } else {
                         Swal.fire({
                             title: 'Pendaftaran Gagal',
-                            text: 'Email ini sudah terdaftar, silahkan cek kembali!',
+                            text: 'Terjadi kesalahan saat mendaftar. Silakan coba lagi.',
                             icon: 'error',
                             confirmButtonColor: '#6A0572'
                         });
@@ -697,116 +584,9 @@
                 document.body.appendChild(script);
             }
             
-            // Projects management
-            let allProjects = [];
-            let filteredProjects = [];
-            let currentFilter = 'all';
-            
-            // Initialize filter buttons
-            const filterButtons = document.querySelectorAll('.filter-btn');
-            filterButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // Update active state
-                    filterButtons.forEach(btn => btn.classList.remove('active'));
-                    this.classList.add('active');
-                    
-                    // Apply filter
-                    currentFilter = this.getAttribute('data-filter');
-                    filterProjects();
-                    displayProjects();
-                });
-            });
-            
-            function filterProjects() {
-                if (currentFilter === 'all') {
-                    filteredProjects = [...allProjects];
-                } else {
-                    filteredProjects = allProjects.filter(project => {
-                        return project['Tingkat Kesulitan'] === currentFilter;
-                    });
-                }
-            }
-            
-            function displayProjects() {
-                const container = document.getElementById('projectsContainer');
-                
-                if (filteredProjects.length === 0) {
-                    container.innerHTML = '<div class="col-span-full text-center text-white py-8">Tidak ada project yang ditemukan.</div>';
-                    return;
-                }
-                
-                let html = '';
-                
-                filteredProjects.forEach(project => {
-                    const title = project['Judul Project'] || 'Untitled Project';
-                    const description = project['Deskripsi Project'] || 'No description available';
-                    const difficulty = project['Tingkat Kesulitan'] || 'Mudah';
-                    const url = project['URL'] || '#';
-                    const image = project['Gambar'] || 'https://via.placeholder.com/400x200?text=No+Image';
-                    
-                    let difficultyClass = '';
-                    if (difficulty === 'Mudah') difficultyClass = 'difficulty-easy';
-                    else if (difficulty === 'Sedang') difficultyClass = 'difficulty-medium';
-                    else if (difficulty === 'Sulit') difficultyClass = 'difficulty-hard';
-                    
-                    html += `
-                        <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
-                            <div class="relative">
-                                <img src="${image}" alt="${title}" class="project-image">
-                                <span class="difficulty-badge ${difficultyClass}">${difficulty}</span>
-                            </div>
-                            <div class="p-6">
-                                <h3 class="text-xl font-bold mb-2 text-gray-800">${title}</h3>
-                                <p class="text-gray-600 mb-4">${description}</p>
-                                <a href="${url}" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
-                                    Lihat Project
-                                </a>
-                            </div>
-                        </div>
-                    `;
-                });
-                
-                container.innerHTML = html;
-            }
-            
-            // Load projects from CSV
-            function loadProjects() {
-                const loadingElement = document.getElementById('projectsLoading');
-                const containerElement = document.getElementById('projectsContainer');
-                
-                loadingElement.classList.remove('hidden');
-                containerElement.classList.add('hidden');
-                
-                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7a5p0ZM1nXbno5fiBZLxRnjsb28uHyaHIj2T795RMfCVxNFcmMHSbnfIJggJEqL_g4C0ddQT7gLDL/pub?gid=571899940&single=true&output=csv';
-                
-                Papa.parse(csvUrl, {
-                    download: true,
-                    header: true,
-                    complete: function(results) {
-                        loadingElement.classList.add('hidden');
-                        containerElement.classList.remove('hidden');
-                        
-                        if (results.data && results.data.length > 0) {
-                            allProjects = results.data.filter(project => project['Judul Project']); // Filter out empty rows
-                            filteredProjects = [...allProjects];
-                            displayProjects();
-                        } else {
-                            containerElement.innerHTML = '<div class="text-center text-white py-8">Tidak ada project yang tersedia.</div>';
-                        }
-                    },
-                    error: function(error) {
-                        loadingElement.classList.add('hidden');
-                        containerElement.classList.remove('hidden');
-                        containerElement.innerHTML = '<div class="text-center text-white py-8">Gagal memuat data project. Silakan coba lagi nanti.</div>';
-                        console.error('Error loading CSV:', error);
-                    }
-                });
-            }
-            
-            // Initial load of participants and projects
+            // Initial load of participants
             loadParticipants();
-            loadProjects();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9424d745a5f2c753',t:'MTc0NzY3MDc4MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9424db9bf66ce783',t:'MTc0NzY3MDk1Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
