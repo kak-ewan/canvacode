@@ -1,0 +1,816 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mastering Canva Code Webinar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        
+        .hero-video {
+            width: 100%;
+            height: 100vh;
+            object-fit: cover;
+        }
+        
+        .card-1 { background-color: #FF6B6B; }
+        .card-2 { background-color: #4ECDC4; }
+        .card-3 { background-color: #FFD166; }
+        .card-4 { background-color: #6A0572; }
+        .card-5 { background-color: #1A936F; }
+        .card-6 { background-color: #3D5A80; }
+        .card-7 { background-color: #E76F51; }
+        
+        .card-1, .card-2, .card-3, .card-4, .card-5, .card-6, .card-7 {
+            transition: transform 0.3s ease;
+        }
+        
+        .card-1:hover, .card-2:hover, .card-3:hover, 
+        .card-4:hover, .card-5:hover, .card-6:hover, .card-7:hover {
+            transform: translateY(-5px);
+        }
+        
+        .icon-box {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .icon-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .register-btn {
+            background: linear-gradient(45deg, #6A0572, #AB83A1);
+            transition: all 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(106, 5, 114, 0.4);
+        }
+        
+        .participant-card {
+            transition: all 0.3s ease;
+            border-left: 4px solid #6A0572;
+        }
+        
+        .participant-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #6A0572;
+            border-radius: 10px;
+        }
+        
+        /* Loading animation */
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #6A0572;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        /* Fade in animation */
+        .fade-in {
+            animation: fadeIn 1s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Speaker image responsive */
+        .speaker-image-container {
+            width: 100%;
+            max-width: 280px;
+            margin: 0 auto;
+            aspect-ratio: 1/1;
+            overflow: hidden;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        
+        .speaker-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+        
+        /* Participants grid */
+        .participants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 16px;
+        }
+        
+        /* Project card */
+        .project-card {
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .project-image {
+            height: 200px;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+        
+        .difficulty-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .difficulty-easy {
+            background-color: #4CAF50;
+            color: white;
+        }
+        
+        .difficulty-medium {
+            background-color: #FF9800;
+            color: white;
+        }
+        
+        .difficulty-hard {
+            background-color: #F44336;
+            color: white;
+        }
+        
+        /* Project filter buttons */
+        .filter-btn {
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .filter-btn.active {
+            border-color: #6A0572;
+            background-color: #6A0572;
+            color: white;
+        }
+        
+        /* Fix form input text color */
+        input[type="text"],
+        input[type="tel"],
+        input[type="email"],
+        select {
+            color: #333 !important;
+            background-color: white !important;
+        }
+        
+        /* Fix search input text color */
+        #searchParticipants {
+            color: #333 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Video Section -->
+    <section class="relative w-full h-screen overflow-hidden">
+        <video 
+            class="hero-video" 
+            autoplay loop muted playsinline
+            allow="fullscreen"
+            webkitallowfullscreen
+            mozallowfullscreen
+        >
+            <source src="https://xppfmghrhhrejnopnyir.supabase.co/storage/v1/object/public/ewan//MASTERING%20(1).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+            <a href="#content" class="flex flex-col items-center text-white animate-bounce">
+                <span class="text-sm mb-2">Scroll Down</span>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+            </a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div id="content" class="bg-gradient-to-b from-purple-900 to-indigo-900 text-white py-16">
+        <div class="container mx-auto px-4">
+            <!-- Speakers Section -->
+            <section class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Narasumber</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Speaker 1: Ewan -->
+                    <div class="flex flex-col items-center">
+                        <div class="speaker-image-container">
+                            <img src="https://iili.io/3PksEut.png" alt="Ewan" class="speaker-image">
+                        </div>
+                        <div class="text-center mt-6">
+                            <h3 class="text-2xl font-bold mb-2">Ewan</h3>
+                            <p class="text-xl text-purple-200">Guru Duta Canva</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Speaker 2: Khaerudin -->
+                    <div class="flex flex-col items-center">
+                        <div class="speaker-image-container">
+                            <img src="https://iili.io/3PkGBOF.jpg" alt="Khaerudin" class="speaker-image">
+                        </div>
+                        <div class="text-center mt-6">
+                            <h3 class="text-2xl font-bold mb-2">Khaerudin</h3>
+                            <p class="text-xl text-purple-200">Duta Teknologi Provinsi NTB</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Event Details Section -->
+            <section class="mb-20">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div class="icon-box p-6 flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2">23 Mei 2025</h3>
+                    </div>
+                    <div class="icon-box p-6 flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-purple-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2">Pukul 19.00 WIB</h3>
+                    </div>
+                    <div class="icon-box p-6 flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-blue-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2">Zoom Meeting</h3>
+                    </div>
+                    <div class="icon-box p-6 flex flex-col items-center text-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mb-4 text-red-300" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <h3 class="text-xl font-semibold mb-2">Youtube</h3>
+                        <p class="text-purple-200">Wahana Edukasi</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Webinar Materials Section -->
+            <section class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Materi Webinar</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="card-1 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Pengenalan Canva AI</h3>
+                        <p>Mengenal fitur baru Canva Code</p>
+                    </div>
+                    <div class="card-2 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Prompting</h3>
+                        <p>Komunikasi efektif</p>
+                    </div>
+                    <div class="card-3 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Respon</h3>
+                        <p>Membahas seputar kemampuan respon canva code</p>
+                    </div>
+                    <div class="card-4 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">CRUD</h3>
+                        <p>Mengenal dasar dari CRUD database</p>
+                    </div>
+                    <div class="card-5 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Data Dinamis</h3>
+                        <p>Menghubungkan canva code dan spreadsheet tanpa code tambahan</p>
+                    </div>
+                    <div class="card-6 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Url Media</h3>
+                        <p>Penggunaan gambar, video, dan audio di Canva Code</p>
+                    </div>
+                    <div class="card-7 rounded-lg p-6 text-white shadow-lg">
+                        <h3 class="text-xl font-bold mb-3">Praktik Baik</h3>
+                        <p>Integrasi Pembelajaran Coding dan Kearifan Lokal memanfaatkan Canva</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sample Projects Section -->
+            <section class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-6">Sample Projects</h2>
+                <p class="text-center text-lg mb-12 max-w-3xl mx-auto">Berikut adalah beberapa contoh project yang dibuat dengan Canva AI</p>
+                
+                <div class="mb-8 flex flex-wrap justify-center gap-4">
+                    <button class="filter-btn active px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="all">Semua</button>
+                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Mudah">Mudah</button>
+                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Sedang">Sedang</button>
+                    <button class="filter-btn px-4 py-2 rounded-full bg-white text-purple-900 font-medium" data-filter="Sulit">Sulit</button>
+                </div>
+                
+                <div id="projectsLoading" class="flex justify-center my-8">
+                    <div class="loader"></div>
+                </div>
+                
+                <div id="projectsContainer" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Projects will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Registration Form Section -->
+            <section class="mb-20">
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-800 to-indigo-700 p-6">
+                        <h2 class="text-3xl font-bold text-white text-center">Daftar Sekarang</h2>
+                    </div>
+                    <form id="registrationForm" class="p-6 space-y-4">
+                        <div>
+                            <label for="nama" class="block text-gray-700 font-medium mb-2">Nama</label>
+                            <input type="text" id="nama" name="nama" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                        </div>
+                        <div>
+                            <label for="provinsi" class="block text-gray-700 font-medium mb-2">Provinsi</label>
+                            <input type="text" id="provinsi" name="provinsi" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                        </div>
+                        <div>
+                            <label for="whatsapp" class="block text-gray-700 font-medium mb-2">WhatsApp</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" id="email" name="email" required class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                        </div>
+                        <div class="pt-4">
+                            <button type="submit" class="register-btn w-full py-3 px-6 text-white font-bold rounded-lg">
+                                Daftar Sekarang
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- WhatsApp Group Section (Initially Hidden) -->
+            <section id="whatsappGroup" class="mb-20 hidden fade-in">
+                <div class="max-w-md mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+                    <div class="bg-gradient-to-r from-green-500 to-green-700 p-6">
+                        <h2 class="text-2xl font-bold text-white text-center">Bergabung dengan Grup WhatsApp</h2>
+                    </div>
+                    <div class="p-6 flex flex-col items-center">
+                        <p class="text-gray-700 mb-6 text-center">Scan QR code di bawah ini untuk bergabung dengan grup WhatsApp kami:</p>
+                        <img src="https://iili.io/3Pks5MJ.png" alt="WhatsApp Group QR Code" class="w-48 h-48 mb-6">
+                        <a href="https://chat.whatsapp.com/GfIlwf8tAjr2qjuHJnjoAy" target="_blank" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300">
+                            Buka di WhatsApp
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Participants Data Section -->
+            <section class="mb-20">
+                <h2 class="text-3xl font-bold text-center mb-12">Data Peserta</h2>
+                <div id="participantsLoading" class="flex justify-center my-8">
+                    <div class="loader"></div>
+                </div>
+                <div id="participantsContainer" class="hidden">
+                    <div class="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
+                        <div class="flex items-center w-full md:w-auto">
+                            <input type="text" id="searchParticipants" placeholder="Cari peserta..." class="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600 w-full md:w-auto text-gray-800">
+                            <button id="searchButton" class="ml-2 bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition duration-300">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center w-full md:w-auto justify-end">
+                            <span class="text-white mr-2">Tampilkan:</span>
+                            <select id="participantsPerPage" class="px-3 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-purple-600 text-gray-800">
+                                <option value="12">12</option>
+                                <option value="24">24</option>
+                                <option value="48">48</option>
+                                <option value="96">96</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div id="participantsGrid" class="participants-grid mb-6">
+                        <!-- Participants will be loaded here -->
+                    </div>
+                    
+                    <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                        <div class="text-white" id="participantsInfo">
+                            Menampilkan <span id="startCount">0</span>-<span id="endCount">0</span> dari <span id="totalCount">0</span> peserta
+                        </div>
+                        <div class="flex space-x-2">
+                            <button id="prevPage" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                                </svg>
+                            </button>
+                            <button id="nextPage" class="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="container mx-auto px-4 text-center">
+            <h3 class="text-xl font-bold mb-2">Teacher Canvassador Indonesia</h3>
+            <p>&copy; 2025. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+
+            // Form submission
+            const form = document.getElementById('registrationForm');
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(form);
+                const data = {};
+                formData.forEach((value, key) => {
+                    data[key] = value;
+                });
+                
+                // Show loading state
+                const submitBtn = form.querySelector('button[type="submit"]');
+                const originalBtnText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<div class="flex items-center justify-center"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div> Mendaftar...</div>';
+                
+                // Submit data using JSONP to avoid CORS issues
+                const script = document.createElement('script');
+                const callbackName = 'jsonpCallback_' + Math.round(100000 * Math.random());
+                
+                window[callbackName] = function(response) {
+                    // Reset button state
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = originalBtnText;
+                    
+                    if (response.result === 'success') {
+                        Swal.fire({
+                            title: 'Pendaftaran Berhasil!',
+                            text: 'Terima kasih telah mendaftar untuk webinar kami.',
+                            icon: 'success',
+                            confirmButtonColor: '#6A0572'
+                        });
+                        
+                        // Show WhatsApp group section
+                        document.getElementById('whatsappGroup').classList.remove('hidden');
+                        
+                        // Reset form
+                        form.reset();
+                        
+                        // Refresh participants list
+                        loadParticipants();
+                    } else {
+                        Swal.fire({
+                            title: 'Pendaftaran Gagal',
+                            text: 'Email ini sudah terdaftar, silahkan cek kembali!',
+                            icon: 'error',
+                            confirmButtonColor: '#6A0572'
+                        });
+                    }
+                    
+                    // Clean up
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                };
+                
+                // Build URL with parameters
+                const params = new URLSearchParams();
+                params.append('action', 'register');
+                params.append('callback', callbackName);
+                for (const key in data) {
+                    params.append(key, data[key]);
+                }
+                
+                script.src = `https://script.google.com/macros/s/AKfycbzFohK01AonxqWMdsIactqkLRWazQhDjBuqEdNtgt82ivbeKO9Cbr08Q-oD9Coqoj53/exec?${params.toString()}`;
+                document.body.appendChild(script);
+            });
+            
+            // Participants management
+            let allParticipants = [];
+            let filteredParticipants = [];
+            let currentPage = 1;
+            let participantsPerPage = 12;
+            let searchTerm = '';
+            
+            // Initialize pagination controls
+            const prevPageBtn = document.getElementById('prevPage');
+            const nextPageBtn = document.getElementById('nextPage');
+            const perPageSelect = document.getElementById('participantsPerPage');
+            const searchInput = document.getElementById('searchParticipants');
+            const searchBtn = document.getElementById('searchButton');
+            
+            perPageSelect.addEventListener('change', function() {
+                participantsPerPage = parseInt(this.value);
+                currentPage = 1;
+                displayParticipants();
+            });
+            
+            prevPageBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    displayParticipants();
+                }
+            });
+            
+            nextPageBtn.addEventListener('click', function() {
+                const maxPage = Math.ceil(filteredParticipants.length / participantsPerPage);
+                if (currentPage < maxPage) {
+                    currentPage++;
+                    displayParticipants();
+                }
+            });
+            
+            searchBtn.addEventListener('click', function() {
+                searchTerm = searchInput.value.toLowerCase();
+                currentPage = 1;
+                filterParticipants();
+                displayParticipants();
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchTerm = searchInput.value.toLowerCase();
+                    currentPage = 1;
+                    filterParticipants();
+                    displayParticipants();
+                }
+            });
+            
+            function filterParticipants() {
+                if (searchTerm === '') {
+                    filteredParticipants = [...allParticipants];
+                } else {
+                    filteredParticipants = allParticipants.filter(participant => {
+                        return participant.nama.toLowerCase().includes(searchTerm) || 
+                               participant.provinsi.toLowerCase().includes(searchTerm);
+                    });
+                }
+            }
+            
+            function displayParticipants() {
+                const grid = document.getElementById('participantsGrid');
+                const startCount = document.getElementById('startCount');
+                const endCount = document.getElementById('endCount');
+                const totalCount = document.getElementById('totalCount');
+                
+                // Calculate pagination
+                const start = (currentPage - 1) * participantsPerPage;
+                const end = Math.min(start + participantsPerPage, filteredParticipants.length);
+                const pageParticipants = filteredParticipants.slice(start, end);
+                
+                // Update pagination info
+                startCount.textContent = filteredParticipants.length > 0 ? start + 1 : 0;
+                endCount.textContent = end;
+                totalCount.textContent = filteredParticipants.length;
+                
+                // Update buttons state
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = end >= filteredParticipants.length;
+                
+                // Generate HTML
+                let html = '';
+                
+                if (pageParticipants.length === 0) {
+                    html = '<div class="col-span-full text-center text-white py-8">Tidak ada peserta yang ditemukan.</div>';
+                } else {
+                    pageParticipants.forEach((participant, index) => {
+                        const provinsi = participant.provinsi || 'Tidak disebutkan';
+                        const colorIndex = index % 6 + 1;
+                        const colorClasses = {
+                            1: 'from-purple-600 to-purple-800',
+                            2: 'from-blue-600 to-blue-800',
+                            3: 'from-green-600 to-green-800',
+                            4: 'from-yellow-600 to-yellow-800',
+                            5: 'from-red-600 to-red-800',
+                            6: 'from-indigo-600 to-indigo-800'
+                        };
+                        
+                        html += `
+                            <div class="participant-card bg-white text-gray-800 rounded-lg shadow-md overflow-hidden">
+                                <div class="bg-gradient-to-r ${colorClasses[colorIndex]} p-4 text-white">
+                                    <div class="w-12 h-12 rounded-full bg-white text-gray-800 flex items-center justify-center font-bold text-lg mb-2">
+                                        ${participant.nama ? participant.nama.charAt(0).toUpperCase() : '#'}
+                                    </div>
+                                    <h4 class="font-bold text-lg truncate">${participant.nama || 'Tanpa Nama'}</h4>
+                                </div>
+                                <div class="p-4">
+                                    <div class="flex items-center mb-2">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        </svg>
+                                        <span class="truncate">${provinsi}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+                
+                grid.innerHTML = html;
+            }
+            
+            // Load participants data
+            function loadParticipants() {
+                const loadingElement = document.getElementById('participantsLoading');
+                const containerElement = document.getElementById('participantsContainer');
+                
+                loadingElement.classList.remove('hidden');
+                containerElement.classList.add('hidden');
+                
+                const script = document.createElement('script');
+                const callbackName = 'participantsCallback_' + Math.round(100000 * Math.random());
+                
+                window[callbackName] = function(response) {
+                    loadingElement.classList.add('hidden');
+                    containerElement.classList.remove('hidden');
+                    
+                    if (response.result === 'success' && response.data && response.data.length > 0) {
+                        allParticipants = response.data;
+                        filteredParticipants = [...allParticipants];
+                        displayParticipants();
+                    } else {
+                        allParticipants = [];
+                        filteredParticipants = [];
+                        displayParticipants();
+                    }
+                    
+                    // Clean up
+                    delete window[callbackName];
+                    document.body.removeChild(script);
+                };
+                
+                script.src = `https://script.google.com/macros/s/AKfycbzFohK01AonxqWMdsIactqkLRWazQhDjBuqEdNtgt82ivbeKO9Cbr08Q-oD9Coqoj53/exec?action=getParticipants&callback=${callbackName}`;
+                document.body.appendChild(script);
+            }
+            
+            // Projects management
+            let allProjects = [];
+            let filteredProjects = [];
+            let currentFilter = 'all';
+            
+            // Initialize filter buttons
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Update active state
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Apply filter
+                    currentFilter = this.getAttribute('data-filter');
+                    filterProjects();
+                    displayProjects();
+                });
+            });
+            
+            function filterProjects() {
+                if (currentFilter === 'all') {
+                    filteredProjects = [...allProjects];
+                } else {
+                    filteredProjects = allProjects.filter(project => {
+                        return project['Tingkat Kesulitan'] === currentFilter;
+                    });
+                }
+            }
+            
+            function displayProjects() {
+                const container = document.getElementById('projectsContainer');
+                
+                if (filteredProjects.length === 0) {
+                    container.innerHTML = '<div class="col-span-full text-center text-white py-8">Tidak ada project yang ditemukan.</div>';
+                    return;
+                }
+                
+                let html = '';
+                
+                filteredProjects.forEach(project => {
+                    const title = project['Judul Project'] || 'Untitled Project';
+                    const description = project['Deskripsi Project'] || 'No description available';
+                    const difficulty = project['Tingkat Kesulitan'] || 'Mudah';
+                    const url = project['URL'] || '#';
+                    const image = project['Gambar'] || 'https://via.placeholder.com/400x200?text=No+Image';
+                    
+                    let difficultyClass = '';
+                    if (difficulty === 'Mudah') difficultyClass = 'difficulty-easy';
+                    else if (difficulty === 'Sedang') difficultyClass = 'difficulty-medium';
+                    else if (difficulty === 'Sulit') difficultyClass = 'difficulty-hard';
+                    
+                    html += `
+                        <div class="project-card bg-white rounded-lg shadow-lg overflow-hidden">
+                            <div class="relative">
+                                <img src="${image}" alt="${title}" class="project-image">
+                                <span class="difficulty-badge ${difficultyClass}">${difficulty}</span>
+                            </div>
+                            <div class="p-6">
+                                <h3 class="text-xl font-bold mb-2 text-gray-800">${title}</h3>
+                                <p class="text-gray-600 mb-4">${description}</p>
+                                <a href="${url}" target="_blank" class="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300">
+                                    Lihat Project
+                                </a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                container.innerHTML = html;
+            }
+            
+            // Load projects from CSV
+            function loadProjects() {
+                const loadingElement = document.getElementById('projectsLoading');
+                const containerElement = document.getElementById('projectsContainer');
+                
+                loadingElement.classList.remove('hidden');
+                containerElement.classList.add('hidden');
+                
+                const csvUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vS7a5p0ZM1nXbno5fiBZLxRnjsb28uHyaHIj2T795RMfCVxNFcmMHSbnfIJggJEqL_g4C0ddQT7gLDL/pub?gid=571899940&single=true&output=csv';
+                
+                Papa.parse(csvUrl, {
+                    download: true,
+                    header: true,
+                    complete: function(results) {
+                        loadingElement.classList.add('hidden');
+                        containerElement.classList.remove('hidden');
+                        
+                        if (results.data && results.data.length > 0) {
+                            allProjects = results.data.filter(project => project['Judul Project']); // Filter out empty rows
+                            filteredProjects = [...allProjects];
+                            displayProjects();
+                        } else {
+                            containerElement.innerHTML = '<div class="text-center text-white py-8">Tidak ada project yang tersedia.</div>';
+                        }
+                    },
+                    error: function(error) {
+                        loadingElement.classList.add('hidden');
+                        containerElement.classList.remove('hidden');
+                        containerElement.innerHTML = '<div class="text-center text-white py-8">Gagal memuat data project. Silakan coba lagi nanti.</div>';
+                        console.error('Error loading CSV:', error);
+                    }
+                });
+            }
+            
+            // Initial load of participants and projects
+            loadParticipants();
+            loadProjects();
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9424336434b37550',t:'MTc0NzY2NDA2Ny4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
